@@ -19,14 +19,14 @@ module.exports = {
   },
   eslint: true,
   compilers: {
-    // less: {
-    //   compress: true
-    // },
+    less: {
+      compress: true
+    },
     // /*sass: {
     //   outputStyle: 'compressed'
     // },*/
     stylus: {
-      'compress': true
+      compress: true
     },
     babel: {
       sourceMap: true,
@@ -37,7 +37,7 @@ module.exports = {
         'transform-class-properties',
         'transform-decorators-legacy',
         'transform-object-rest-spread',
-        'transform-export-extensions',
+        'transform-export-extensions'
       ]
     }
   },

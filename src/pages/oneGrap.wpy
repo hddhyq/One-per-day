@@ -1,0 +1,72 @@
+<template>
+  <view class="grap">
+    <view class="picture">
+      <image class="pic" src="{{imgUrl}}"  mode="widthFix"></image>
+    </view>
+    <view class="image-author">
+			<text class="author">{{imgAuthor}}</text>
+		</view>
+		<view class="grap-content">
+			<text class="content">{{content}}</text>
+		</view>
+    <view class="content-author">
+      <text class="author">{{contentAuthor}}</text>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class OneGrap extends wepy.page {
+    config = {
+      navigationBarTitleText: '2017/01/31'
+    }
+    props = {
+    }
+    data = {
+      imgUrl: 'http://image.wufazhuce.com/FnKp7ffcEJV9nWRZbq3kQBWKD1ZL',
+      imgAuthor: '摄影|素人沐恩',
+      content: '我再也没有像那天一样，怀着满格的耐心与焦灼，去矛盾的等过一个人。后来所去见的人，每一面都顺水推舟，稀松平常。所以再也体会不到，溺水之人被捞上岸，呼吸到第一扣空气时的那种存在感。幸与不幸，都是你。',
+      contentAuthor: '张瑞琪'
+    }
+    events = {}
+    watch = {}
+    methods = {
+    }
+    onLoad() {
+      console.log('hello grap ')
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+.grap
+  .picture
+    .pic
+      width: 100%
+  .image-author
+    display: flex
+    justify-content: center
+    height: 80rpx
+    .author
+      padding-top: 20rpx
+      font-size: 26rpx
+      color: #666
+  .grap-content
+    display: flex
+    justify-content: center
+    width: 100%
+    .content
+      line-height: 56rpx
+      width: 80%
+      font-size: 30rpx
+      font-weight: 600
+      color: #333
+  .content-author
+    display: flex
+    justify-content: center
+    .author
+      padding-top: 40rpx
+      font-size: 26rpx
+      color: #666
+</style>
