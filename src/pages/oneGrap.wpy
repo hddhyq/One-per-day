@@ -12,6 +12,17 @@
     <view class="content-author">
       <text class="author">{{contentAuthor}}</text>
     </view>
+    <view class="grap-bottom">
+      <span class="bottom-left">
+        <image src="../icons/discover.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+        <text class="discover-text">发现</text>
+      </span>
+      <span class="bottom-right">
+      <image class="like" src="../icons/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+      <text class="like-num">{{likesNum}}</text>        
+      <image class="share" src="../icons/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
+      </span>
+    </view>
   </view>
 </template>
 
@@ -19,22 +30,30 @@
   import wepy from 'wepy'
   export default class OneGrap extends wepy.page {
     config = {
-      navigationBarTitleText: '2017/01/31'
+      // navigationBarTitleText: '2017/01/31'
     }
     props = {
     }
     data = {
+      imgTime: '2017/01/31',
       imgUrl: 'http://image.wufazhuce.com/FnKp7ffcEJV9nWRZbq3kQBWKD1ZL',
       imgAuthor: '摄影|素人沐恩',
       content: '我再也没有像那天一样，怀着满格的耐心与焦灼，去矛盾的等过一个人。后来所去见的人，每一面都顺水推舟，稀松平常。所以再也体会不到，溺水之人被捞上岸，呼吸到第一扣空气时的那种存在感。幸与不幸，都是你。',
-      contentAuthor: '张瑞琪'
+      contentAuthor: '张瑞琪',
+      likesNum: '2450'
     }
     events = {}
     watch = {}
     methods = {
     }
     onLoad() {
-      console.log('hello grap ')
+      console.log(this.$parent)
+    }
+    onReady() {
+      console.log(this.$parent)
+      wepy.setNavigationBarTitle({
+        title: this.imgTime
+      })
     }
   }
 </script>
@@ -67,6 +86,29 @@
     justify-content: center
     .author
       padding-top: 40rpx
+      padding-bottom: 60rpx
       font-size: 26rpx
       color: #666
+  .grap-bottom
+    display: flex
+    justify-content: space-between
+    .bottom-left
+      display: flex
+      margin: 0 10rpx 20rpx 20rpx
+      align-items: center
+      .discover-text
+        color: #999
+        margin: 10rpx
+        font-size: 26rpx
+    .bottom-right
+      display: flex
+      align-items: center
+      .like
+        margin: 0 5rpx 20rpx 20rpx
+      .like-num
+        color: #999
+        font-size: 24rpx
+        margin: 0 10rpx 20rpx 0
+      .share
+        margin: 0 40rpx 20rpx 20rpx
 </style>
