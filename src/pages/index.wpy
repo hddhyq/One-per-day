@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <text>hello</text>
+    <text>index</text>
   </view>
 </template>
 
@@ -9,7 +9,7 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'hdd'
+      navigationBarTitleText: '图文'
     }
 
     components = {

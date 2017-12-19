@@ -1,0 +1,37 @@
+<template>
+  <view>
+    <text>movie</text>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Movie extends wepy.page {
+    config = {
+      navigationBarTitleText: '电影'
+    }
+
+    components = {
+    }
+
+    data = {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+
+    events = {
+    }
+
+    onLoad () {
+      console.log('hello index')
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+</style>

@@ -1,0 +1,37 @@
+<template>
+  <view>
+    <text>oneEssay</text>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class OneEssay extends wepy.page {
+    config = {
+      navigationBarTitleText: '每日一文'
+    }
+
+    components = {
+    }
+
+    data = {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+
+    events = {
+    }
+
+    onLoad () {
+      console.log('hello essay')
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+</style>

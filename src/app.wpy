@@ -10,13 +10,37 @@ export default class extends wepy.app {
     pages: [
       'pages/index',
       // 'pages/One',
-      'pages/oneGrap'
+      'pages/oneGrap',
+      'pages/oneEssay',
+      'pages/movie'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'ONE&DAY',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#bfbfbf',
+      selectedColor: '#2c2c2c',
+      borderStyle: 'black',
+      backgroundColor: '#ffffff',
+      list: [{
+        pagePath: 'pages/index',
+        iconPath: './icons/tabIcon/tuwen.png',
+        selectedIconPath: './icons/tabIcon/tuwen_index.png',
+        text: '图文'
+      }, {
+        pagePath: 'pages/oneEssay',
+        iconPath: './icons/tabIcon/essay.png',
+        selectedIconPath: './icons/tabIcon/essay_index.png',
+        text: '文章'
+      }, {
+        pagePath: 'pages/movie',
+        iconPath: './icons/tabIcon/movie.png',
+        selectedIconPath: './icons/tabIcon/movie_index.png',
+        text: '电影'
+      }]
     }
   }
 
