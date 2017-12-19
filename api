@@ -1,2 +1,8 @@
 http://v3.wufazhuce.com:8000/api/hp/idlist/0 //今天的文章
 http://v3.wufazhuce.com:8000/api/hp/bymonth/2017-1 //获取指定月数的图片
+
+
+// oneArticle
+https://interface.meiriyiwen.com/article/today?dev=1 // 今天文章
+https://interface.meiriyiwen.com/article/random?dev=1 // 随机文章
+https://interface.meiriyiwen.com/article/day?dev=1&date=20170216 // 特定文章

@@ -1,37 +1,106 @@
 <template>
-  <view>
-    <text>oneEssay</text>
+  <view class="container">
+    <view class="essay-title">
+      <text>{{title}}</text>
+    </view>
+    <view class="essay-author">
+      <text>{{author}}</text>
+    </view>
+    <view class="essay-content">
+      <text>{{content}}</text>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-
+  import {
+    getArticleToday,
+    getArticleRandom
+  } from '../api/index'
+  import {
+    filterContent
+  } from '../utils/index'
+  const ERR_OK = 200
   export default class OneEssay extends wepy.page {
     config = {
       navigationBarTitleText: '每日一文'
     }
-
-    components = {
-    }
-
+    components = {}
     data = {
+      author: '',
+      title: '',
+      content: ''
     }
-
-    computed = {
-    }
-
+    computed = {}
     methods = {
+      backToday() {
+        getArticleToday().then((res) => {
+          if (res.statusCode === ERR_OK) {
+            let essay = res.data.data
+            this.author = essay.author
+            this.content = filterContent(essay.content)
+            this.title = essay.title
+            this.$apply()
+          }
+        })
+      },
+      randomDay() {
+        getArticleRandom().then((res) => {
+          if (res.statusCode === ERR_OK) {
+            let essay = res.data.data
+            this.author = essay.author
+            this.content = filterContent(essay.content)
+            this.title = essay.title
+            this.$apply()
+          }
+        })
+      }
     }
-
-    events = {
+    events = {}
+    async onPullDownRefresh() {
+      wepy.showNavigationBarLoading()
+      await getArticleRandom().then((res) => {
+        if (res.statusCode === ERR_OK) {
+          let essay = res.data.data
+          this.author = essay.author
+          this.content = filterContent(essay.content)
+          this.title = essay.title
+          this.$apply()
+        }
+      })
+      wepy.hideNavigationBarLoading()
+      await wepy.stopPullDownRefresh()
     }
-
-    onLoad () {
-      console.log('hello essay')
+    async onLoad() {
+      await getArticleToday().then((res) => {
+        if (res.statusCode === ERR_OK) {
+          let essay = res.data.data
+          this.author = essay.author
+          this.content = filterContent(essay.content)
+          this.title = essay.title
+          this.$apply()
+        }
+      })
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+.container
+  width: 90%
+  margin: 0 auto
+  .essay-title
+    display: flex
+    justify-content: center
+    margin-top: 200rpx
+    font-size: 50rpx
+  .essay-author
+    display: flex
+    justify-content: center
+    margin: 40rpx 0 80rpx 0
+  .essay-content
+    display: flex
+    justify-content: center
+    line-height: 70rpx
 </style>
