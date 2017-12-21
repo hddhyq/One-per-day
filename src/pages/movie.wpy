@@ -1,8 +1,8 @@
 <template>
   <view>
     <scroll-view scroll-y="true" bindscrolltolower="getMore" class="scroll-container">
-      <repeat class="movie-item" for="{{movieList}}" key="{{id}}" data-id="{{item.id}}" data-title="{{item.title}}" @tap="getDetail">
-        <view class="movie">
+      <repeat class="movie-item" for="{{movieList}}" key="{{id}}">
+        <view class="movie" @tap="getDetail" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="movie-left">
             <view class="cover">
               <image src="{{item.img}}" style="width: 270rpx;height: 378rpx"></image>
@@ -45,9 +45,7 @@
     getInMovie
   } from 'api/movie'
   import Rating from 'components/rating'
-  import {
-    createMovie
-  } from 'common/movieList'
+  import createMovie from 'common/movieList'
   const ERR_OK = 200
   export default class Movie extends wepy.page {
     config = {
@@ -63,7 +61,12 @@
     }
     computed = {}
     methods = {
-      getDetail() {},
+      getDetail(e) {
+        let data = e.currentTarget.dataset
+        wepy.navigateTo({
+          url: './movieDetail?id=' + data.id + '&title=' + data.title
+        })
+      },
       async getMore() {
         this.page += 4
         this.showLoading = false
@@ -98,7 +101,6 @@
           ret.push(createMovie(movieData))
         }
       })
-      console.log(ret)
       return ret
     }
     async onLoad() {

@@ -1,16 +1,49 @@
 <template>
-  <view>movieDetail</view>
+  <view>
+    movieDetail</view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import {getMovieDetail} from 'api/movie'
+  import creatDetail from 'common/movieDetail'
+
+  const ERR_OK = 200
+
   export default class MovieDetail extends wepy.page {
     config = {}
     components = {}
-    data = {}
+    data = {
+      movieDetail: {},
+      movieComments: {}
+    }
     methods = {}
     events = {}
-    onLoad() {}
+    _normalizeDetail(data) {
+      if (data.id) {
+        const detail = creatDetail(data)
+        return detail
+      }
+    }
+    async onPullDownRefresh() {
+      await wepy.stopPullDownRefresh()
+    }
+    // option title和id
+    async onLoad(option) {
+      wepy.showNavigationBarLoading()
+      await wepy.setNavigationBarTitle({
+        title: option.title
+      })
+      wepy.hideNavigationBarLoading()
+      await getMovieDetail(option.id).then((res) => {
+        if (res.statusCode === ERR_OK) {
+          let movieData = res.data
+          console.log(movieData)
+          this.movieDetail = this._normalizeDetail(movieData)
+          console.log(this.movieDetail)
+        }
+      })
+    }
   }
 </script>
 

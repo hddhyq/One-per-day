@@ -7,6 +7,14 @@ const comParams = {
   udid: ''
 }
 
+export function getMovieDetail(id) {
+  const url = 'http://api.douban.com/v2/movie/subject/' + id
+
+  const data = Object.assign({}, comParams, {})
+
+  return getData(url, data)
+}
+
 export function getInMovie(Start, Count) {
   const url = 'https://api.douban.com/v2/movie/in_theaters'
   const data = Object.assign({}, comParams, {

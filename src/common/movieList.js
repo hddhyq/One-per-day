@@ -1,4 +1,4 @@
-export default class Movie {
+class Movie {
   constructor({id, title, img, rating, casts, genres, directors}) {
     this.id = id
     this.title = title
@@ -10,7 +10,7 @@ export default class Movie {
   }
 }
 
-export function createMovie(movieData) {
+export default function createMovie(movieData) {
   return new Movie({
     id: movieData.id,
     title: movieData.title,
