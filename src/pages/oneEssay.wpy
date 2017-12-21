@@ -7,7 +7,13 @@
       <text>{{author}}</text>
     </view>
     <view class="essay-content">
-      <text>{{content}}</text>
+      <text space="true">{{content}}</text>
+    </view>
+    <view class="bottom">
+      <button @tap="backToday" class="btn" hidden="{{flag}}">回到今天</button>
+      <view hidden="{{tipsHidden}}">
+        <text class="introduce">tips:顶部下拉随机一文，双击标题栏返回顶部</text>
+      </view>
     </view>
   </view>
 </template>
@@ -17,25 +23,28 @@
   import {
     getArticleToday,
     getArticleRandom
-  } from '../api/index'
+  } from 'api/article'
   import {
     filterContent
-  } from '../utils/index'
+  } from 'common/utils'
   const ERR_OK = 200
   export default class OneEssay extends wepy.page {
     config = {
       navigationBarTitleText: '每日一文'
     }
-    components = {}
     data = {
       author: '',
       title: '',
-      content: ''
+      content: '',
+      flag: true,
+      tipsHidden: true
     }
-    computed = {}
     methods = {
-      backToday() {
-        getArticleToday().then((res) => {
+      async backToday() {
+        wepy.pageScrollTo({
+          scrollTop: 0
+        })
+        await getArticleToday().then((res) => {
           if (res.statusCode === ERR_OK) {
             let essay = res.data.data
             this.author = essay.author
@@ -44,44 +53,32 @@
             this.$apply()
           }
         })
-      },
-      randomDay() {
-        getArticleRandom().then((res) => {
-          if (res.statusCode === ERR_OK) {
-            let essay = res.data.data
-            this.author = essay.author
-            this.content = filterContent(essay.content)
-            this.title = essay.title
-            this.$apply()
-          }
-        })
+        this.flag = true
+        this.$apply()
       }
     }
-    events = {}
+    async getRandom() {
+      let res = await getArticleRandom()
+      if (res.statusCode === ERR_OK) {
+        let essay = res.data.data
+        this.author = essay.author
+        this.content = filterContent(essay.content)
+        this.title = essay.title
+        this.$apply()
+      }
+      this.flag = false
+      this.$apply()
+    }
     async onPullDownRefresh() {
       wepy.showNavigationBarLoading()
-      await getArticleRandom().then((res) => {
-        if (res.statusCode === ERR_OK) {
-          let essay = res.data.data
-          this.author = essay.author
-          this.content = filterContent(essay.content)
-          this.title = essay.title
-          this.$apply()
-        }
-      })
+      await this.getRandom()
       wepy.hideNavigationBarLoading()
       await wepy.stopPullDownRefresh()
     }
     async onLoad() {
-      await getArticleToday().then((res) => {
-        if (res.statusCode === ERR_OK) {
-          let essay = res.data.data
-          this.author = essay.author
-          this.content = filterContent(essay.content)
-          this.title = essay.title
-          this.$apply()
-        }
-      })
+      await this.getRandom()
+      this.tipsHidden = false
+      this.$apply()
     }
   }
 </script>
@@ -103,4 +100,14 @@
     display: flex
     justify-content: center
     line-height: 70rpx
+  .bottom
+    margin-top: 60rpx
+    .btn
+      width: 40%
+    .introduce
+      display: flex
+      justify-content: center
+      margin: 30rpx 0
+      font-size: 24rpx
+      color: #666
 </style>

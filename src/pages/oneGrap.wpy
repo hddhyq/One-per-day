@@ -14,13 +14,13 @@
     </view>
     <view class="grap-bottom">
       <span class="bottom-left">
-        <image src="../icons/oneGrap/discover.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+        <image src="../img/oneGrap/discover.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
         <text class="discover-text">发现</text>
       </span>
       <span class="bottom-right">
-      <image class="like" src="../icons/oneGrap/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+      <image class="like" src="../img/oneGrap/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
       <text class="like-num">{{likesNum}}</text>        
-      <image class="share" src="../icons/oneGrap/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
+      <image class="share" src="../img/oneGrap/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
       </span>
     </view>
   </view>
@@ -46,6 +46,10 @@
     watch = {}
     methods = {
     }
+    async onPullDownRefresh () {
+      await wepy.stopPullDownRefresh()
+    }
+
     onLoad() {
       console.log(this.$parent)
     }

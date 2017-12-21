@@ -1,37 +1,153 @@
 <template>
   <view>
-    <text>movie</text>
+    <scroll-view scroll-y="true" bindscrolltolower="getMore" class="scroll-container">
+      <repeat class="movie-item" for="{{movieList}}" key="{{id}}" data-id="{{item.id}}" data-title="{{item.title}}" @tap="getDetail">
+        <view class="movie">
+          <view class="movie-left">
+            <view class="cover">
+              <image src="{{item.img}}" style="width: 270rpx;height: 378rpx"></image>
+            </view>
+          </view>
+          <view class="movie-right">
+            <view class="title">
+              <text>{{item.title}}</text>
+            </view>
+            <view class="rating">
+              <rating :score.sync="item.rating"></rating>
+            </view>
+            <view class="genres">
+              <text>类型：{{item.genres}}</text>
+            </view>
+            <view class="directors">
+              <text>导演：{{item.directors}}</text>
+            </view>
+            <view class="casts">
+              <text>主演：{{item.casts}}</text>
+            </view>
+          </view>
+        </view>
+      </repeat>
+      <view hidden="{{showLoading}}">
+        <view class="loading">
+          <span class="loadImg">
+                    <image src="../img/loading/loading.gif" style="width: 25px;height: 25px"></image>
+                  </span>
+          <text class="text">正在加载...</text>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-
+  import {
+    getInMovie
+  } from 'api/movie'
+  import Rating from 'components/rating'
+  import {
+    createMovie
+  } from 'common/movieList'
+  const ERR_OK = 200
   export default class Movie extends wepy.page {
     config = {
       navigationBarTitleText: '电影'
     }
-
     components = {
+      rating: Rating
     }
-
     data = {
+      showLoading: true,
+      movieList: [],
+      page: 0
     }
-
-    computed = {
-    }
-
+    computed = {}
     methods = {
+      getDetail() {},
+      async getMore() {
+        this.page += 4
+        this.showLoading = false
+        this.$apply()
+        await getInMovie(this.page, 4).then((res) => {
+          if (res.statusCode === ERR_OK && res.data.subjects.length > 0) {
+            let newData = this._normalizeMovies(res.data.subjects)
+            this.movieList.push(...newData)
+            this.$apply()
+          } else {
+            wepy.showToast({
+              title: '暂无更多'
+            })
+            setTimeout(() => {
+              wepy.hiddenToast()
+            }, 300)
+          }
+        })
+        this.showLoading = true
+        this.$apply()
+      }
     }
-
-    events = {
+    events = {}
+    async onPullDownRefresh() {
+      await wepy.stopPullDownRefresh()
     }
-
-    onLoad () {
-      console.log('hello index')
+    _normalizeMovies(list) {
+      let ret = []
+      list.forEach((item) => {
+        const movieData = item
+        if (movieData.id) {
+          ret.push(createMovie(movieData))
+        }
+      })
+      console.log(ret)
+      return ret
+    }
+    async onLoad() {
+      wepy.showToast({
+        title: '努力加载中',
+        icon: 'loading'
+      })
+      await getInMovie(this.page, 4).then((res) => {
+        if (res.statusCode === ERR_OK) {
+          this.movieList = this._normalizeMovies(res.data.subjects)
+          this.$apply()
+        }
+      })
+      wepy.hideToast()
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+.scroll-container
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  .movie
+    display: flex
+    padding: 10rpx
+    .movie-left
+      margin: 10rpx
+    .movie-right
+      .title
+        padding-top: 10rpx
+      .genres
+        padding: 10rpx 0
+        color: #666
+        font-size: 30rpx
+      .directors
+        padding: 10rpx 0
+        color: #666
+        font-size: 30rpx
+      .casts
+        padding: 12rpx 0
+        color: #666
+        font-size: 30rpx
+  .loading
+    display: flex
+    justify-content: center
+    .text
+      padding-left: 20rpx
+      color: #666
 </style>

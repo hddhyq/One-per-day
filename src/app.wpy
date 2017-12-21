@@ -12,14 +12,16 @@ export default class extends wepy.app {
       // 'pages/One',
       'pages/oneGrap',
       'pages/oneEssay',
-      'pages/movie'
+      'pages/movie',
+      'pages/movieDetail'
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'ONE&DAY',
       navigationBarTextStyle: 'black',
-      enablePullDownRefresh: true
+      enablePullDownRefresh: true,
+      onReachBottomDistance: true
     },
     tabBar: {
       color: '#bfbfbf',
@@ -28,18 +30,18 @@ export default class extends wepy.app {
       backgroundColor: '#ffffff',
       list: [{
         pagePath: 'pages/index',
-        iconPath: './icons/tabIcon/tuwen.png',
-        selectedIconPath: './icons/tabIcon/tuwen_index.png',
+        iconPath: './img/tabIcon/tuwen.png',
+        selectedIconPath: './img/tabIcon/tuwen_index.png',
         text: '图文'
       }, {
         pagePath: 'pages/oneEssay',
-        iconPath: './icons/tabIcon/essay.png',
-        selectedIconPath: './icons/tabIcon/essay_index.png',
+        iconPath: './img/tabIcon/essay.png',
+        selectedIconPath: './img/tabIcon/essay_index.png',
         text: '文章'
       }, {
         pagePath: 'pages/movie',
-        iconPath: './icons/tabIcon/movie.png',
-        selectedIconPath: './icons/tabIcon/movie_index.png',
+        iconPath: './img/tabIcon/movie.png',
+        selectedIconPath: './img/tabIcon/movie_index.png',
         text: '电影'
       }]
     }

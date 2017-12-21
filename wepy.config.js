@@ -13,6 +13,9 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.join(__dirname, 'src'),
+      'api': path.join(__dirname, 'src/api'),
+      'common': path.join(__dirname, 'src/common'),
+      'utils': path.join(__dirname, 'src/utils'),
       'components': path.join(__dirname, 'src/components')
     },
     modules: ['node_modules']

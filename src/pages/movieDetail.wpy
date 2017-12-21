@@ -1,0 +1,18 @@
+<template>
+  <view>movieDetail</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class MovieDetail extends wepy.page {
+    config = {}
+    components = {}
+    data = {}
+    methods = {}
+    events = {}
+    onLoad() {}
+  }
+</script>
+
+<style lang="stylus">
+</style>
