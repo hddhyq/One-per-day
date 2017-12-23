@@ -1,35 +1,85 @@
 <template>
-  <view>
-    movieDetail</view>
+  <view hidden="{{flag}}">
+    <view class="movie-bg">
+      <image class="bg-image" src="{{movieDetail.img}}" mode="widthFix"></image>
+    </view>
+    <view class="movie-header">
+      <view class="header-image">
+        <image src="{{movieDetail.img}}"></image>
+      </view>
+      <view>
+        <view>
+          <text>{{movieDetail.title}}</text>
+        </view>
+        <view>
+          <view>
+            <text>{{movieDetail.rating}}</text>
+          </view>
+          <view>
+            <view>
+              <text>xingxing</text>
+            </view>
+            <view>
+              <text>{{movieDetail.count}}人评价</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="movie-content">
+      <view>
+        <view>
+          <text>{{movieDetail.duration}} {{movieDetail.genres}}</text>
+        </view>
+        <view>
+          <text>{{movieDetail.pubdate}}上映 {{movieDetail.country}}</text>
+        </view>
+        <view>
+          <text>{{movieDetail.directors}}/{{movieDetail.casts}}</text>
+        </view>
+      </view>
+      <view>
+        <view>
+          <text>{{movieDetail.title}}的剧情简介</text>
+        </view>
+        <view class="summary">
+          <text>{{movieDetail.summary}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import {getMovieDetail} from 'api/movie'
+  import {
+    getMovieDetail
+  } from 'api/movie'
   import creatDetail from 'common/movieDetail'
-
   const ERR_OK = 200
-
   export default class MovieDetail extends wepy.page {
     config = {}
     components = {}
     data = {
       movieDetail: {},
-      movieComments: {}
+      movieComments: {},
+      flag: true
     }
     methods = {}
     events = {}
     _normalizeDetail(data) {
-      if (data.id) {
-        const detail = creatDetail(data)
-        return detail
-      }
+      const detail = creatDetail(data)
+      return detail
     }
     async onPullDownRefresh() {
       await wepy.stopPullDownRefresh()
     }
     // option title和id
     async onLoad(option) {
+      wepy.showToast({
+        title: '努力加载中',
+        icon: 'loading'
+      })
       wepy.showNavigationBarLoading()
       await wepy.setNavigationBarTitle({
         title: option.title
@@ -38,14 +88,35 @@
       await getMovieDetail(option.id).then((res) => {
         if (res.statusCode === ERR_OK) {
           let movieData = res.data
-          console.log(movieData)
           this.movieDetail = this._normalizeDetail(movieData)
+          this.movieDetail.img = option.img // 本来的图片没法请求， 403 用的前面的列表的图片
+          this.$apply()
           console.log(this.movieDetail)
         }
       })
+      this.flag = false
+      this.$apply()
+      wepy.hideToast()
     }
   }
 </script>
 
 <style lang="stylus">
+.movie-bg
+  position: absolute
+  top: 0
+  right: 0
+  left: 0
+  width: 100%
+  .bg-image
+    width: 100%
+    filter: brightness(.3)
+.movie-content
+  position: absolute
+  top: 360rpx
+  right: 0
+  bottom: 0
+  right: 0
+  z-index: 10
+  background-color: #fff
 </style>

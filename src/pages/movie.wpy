@@ -2,7 +2,7 @@
   <view>
     <scroll-view scroll-y="true" bindscrolltolower="getMore" class="scroll-container">
       <repeat class="movie-item" for="{{movieList}}" key="{{id}}">
-        <view class="movie" @tap="getDetail" data-id="{{item.id}}" data-title="{{item.title}}">
+        <view class="movie" @tap="getDetail" data-id="{{item.id}}" data-title="{{item.title}}" data-img="{{item.img}}">
           <view class="movie-left">
             <view class="cover">
               <image src="{{item.img}}" style="width: 270rpx;height: 378rpx"></image>
@@ -64,7 +64,7 @@
       getDetail(e) {
         let data = e.currentTarget.dataset
         wepy.navigateTo({
-          url: './movieDetail?id=' + data.id + '&title=' + data.title
+          url: './movieDetail?id=' + data.id + '&title=' + data.title + '&img=' + data.img
         })
       },
       async getMore() {

@@ -18,7 +18,7 @@ export default class extends wepy.app {
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'ONE&DAY',
+      navigationBarTitleText: '',
       navigationBarTextStyle: 'black',
       enablePullDownRefresh: true,
       onReachBottomDistance: true
