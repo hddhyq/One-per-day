@@ -14,7 +14,7 @@ export default function createMovie(movieData) {
   return new Movie({
     id: movieData.id,
     title: movieData.title,
-    img: movieData.images.small,
+    img: movieData.images.medium,
     rating: movieData.rating.average,
     casts: filterName(movieData.casts),
     genres: filterGenres(movieData.genres),

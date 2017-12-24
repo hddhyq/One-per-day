@@ -1,0 +1,61 @@
+<template>
+  <view class="rating">
+    <view class="rating-star allstar{{score}}"></view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class RatingSmall extends wepy.component {
+    components = {};
+    props = {
+      score: {
+        type: Number,
+        default: 0
+      }
+    }
+    computed = {}
+    data = {}
+    methods = {}
+    events = {}
+  }
+</script>
+
+<style lang="stylus">
+.rating 
+  display: flex
+  flex-direction: row
+  position: relative
+  margin-top: 10rpx
+  margin-bottom: 10rpx
+  .rating-star 
+    content: ""
+    display: inline-block
+    width: 55px
+    height: 11px
+    position: absolute
+    background-repeat: no-repeat
+    background-image: url('http://ww1.sinaimg.cn/large/a1f29c60ly1fmrx2ajnqpj201j03d0m8.jpg')
+    &.allstar10 
+      background-position: 0px 0px
+    &.allstar9 
+      background-position: 0px -11px
+    &.allstar8
+      background-position: 0px -22px
+    &.allstar7
+      background-position: 0px -33px
+    &.allstar6
+      background-position: 0px -44px
+    &.allstar5
+      background-position: 0px -55px
+    &.allstar4
+      background-position: 0px -66px
+    &.allstar3
+      background-position: 0px -77px
+    &.allstar2
+      background-position: 0px -88px
+    &.allstar1
+      background-position: 0px -99px
+    &.allstar0
+      background-position: 0px -110px
+</style>

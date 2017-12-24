@@ -5,21 +5,21 @@
     </view>
     <view class="movie-header">
       <view class="header-image">
-        <image src="{{movieDetail.img}}"></image>
+        <image src="{{movieDetail.img}}" style="width:200rpx;height:278rpx"></image>
       </view>
-      <view>
-        <view>
+      <view class="header-content">
+        <view class="title">
           <text>{{movieDetail.title}}</text>
         </view>
-        <view>
-          <view>
+        <view class="content">
+          <view class="score">
             <text>{{movieDetail.rating}}</text>
           </view>
-          <view>
-            <view>
-              <text>xingxing</text>
+          <view class="evaluation">
+            <view class="rating">
+              <rating :score.sync="score"></rating>
             </view>
-            <view>
+            <view class="count">
               <text>{{movieDetail.count}}人评价</text>
             </view>
           </view>
@@ -27,23 +27,25 @@
       </view>
     </view>
     <view class="movie-content">
-      <view>
-        <view>
-          <text>{{movieDetail.duration}} {{movieDetail.genres}}</text>
+      <view class="container">
+        <view class="content">
+          <view>
+            <text>{{movieDetail.duration}} {{movieDetail.genres}}</text>
+          </view>
+          <view>
+            <text>{{movieDetail.pubdate}}上映 {{movieDetail.country}}</text>
+          </view>
+          <view>
+            <text>{{movieDetail.directors}} / {{movieDetail.casts}}</text>
+          </view>
         </view>
-        <view>
-          <text>{{movieDetail.pubdate}}上映 {{movieDetail.country}}</text>
-        </view>
-        <view>
-          <text>{{movieDetail.directors}}/{{movieDetail.casts}}</text>
-        </view>
-      </view>
-      <view>
-        <view>
-          <text>{{movieDetail.title}}的剧情简介</text>
-        </view>
-        <view class="summary">
-          <text>{{movieDetail.summary}}</text>
+        <view class="introduction">
+          <view class="title">
+            <text>{{movieDetail.title}}的剧情简介</text>
+          </view>
+          <view class="summary">
+            <text>{{movieDetail.summary}}</text>
+          </view>
         </view>
       </view>
     </view>
@@ -52,6 +54,7 @@
 
 <script>
   import wepy from 'wepy'
+  import Rating from 'components/ratingSmall'
   import {
     getMovieDetail
   } from 'api/movie'
@@ -59,10 +62,13 @@
   const ERR_OK = 200
   export default class MovieDetail extends wepy.page {
     config = {}
-    components = {}
+    components = {
+      rating: Rating
+    }
     data = {
       movieDetail: {},
-      movieComments: {},
+      movieComments: {}, // 评论功能没有上线
+      score: Number,
       flag: true
     }
     methods = {}
@@ -90,8 +96,9 @@
           let movieData = res.data
           this.movieDetail = this._normalizeDetail(movieData)
           this.movieDetail.img = option.img // 本来的图片没法请求， 403 用的前面的列表的图片
+          this.score = this.movieDetail.rating // 关于组件的调用，props调用movieDetail的数据没有反应
           this.$apply()
-          console.log(this.movieDetail)
+          // console.log(this.movieDetail)
         }
       })
       this.flag = false
@@ -111,6 +118,31 @@
   .bg-image
     width: 100%
     filter: brightness(.3)
+.movie-header
+  display: flex
+  position: absolute
+  top: 120rpx
+  z-index: 20
+  .header-image
+    margin: 0 30rpx
+  .header-content
+    color: #fff
+    margin-top: 30rpx
+    .title
+      font-size: 42rpx
+      font-weight: 600
+    .content
+      display: flex
+      .score
+        margin-top: 10rpx
+        font-size: 76rpx
+        font-weight: 600
+      .evaluation
+        margin-left: 20rpx
+        .count
+          padding-top: 10rpx
+          font-size: 28rpx
+          color: #999
 .movie-content
   position: absolute
   top: 360rpx
@@ -119,4 +151,18 @@
   right: 0
   z-index: 10
   background-color: #fff
+  .container
+    width: 90%
+    margin: 70rpx auto
+    .content
+      font-size: 30rpx
+    .introduction
+      margin-top: 50rpx
+      .title
+        margin: 30rpx 0
+        font-size: 32rpx
+        color: #666
+      .summary
+        font-size: 28rpx
+        line-height: 40rpx
 </style>

@@ -38,7 +38,7 @@ function filterName(names) {
     ret.push(i.name)
   })
 
-  return ret.join('/')
+  return ret.join(' / ')
 }
 
 function filterDirector(names) {
@@ -50,7 +50,7 @@ function filterDirector(names) {
     ret.push(i.name + '(导演)')
   })
 
-  return ret.join('/')
+  return ret.join(' / ')
 }
 
 function filterGenres(genres) {
@@ -62,5 +62,5 @@ function filterGenres(genres) {
     ret.push(i)
   })
 
-  return ret.join('/')
+  return ret.join(' / ')
 }
