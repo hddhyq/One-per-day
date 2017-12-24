@@ -30,7 +30,7 @@
   import wepy from 'wepy'
   export default class OneGrap extends wepy.page {
     config = {
-      // navigationBarTitleText: '2017/01/31'
+      navigationBarTitleText: '2017/01/31'
     }
     props = {
     }

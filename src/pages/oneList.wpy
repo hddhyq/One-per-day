@@ -1,0 +1,42 @@
+<template>
+  <view class="container">
+    <view class="section">
+      <view class="section__title">日期选择器</view>
+      <picker mode="date" value="{{date}}" start="2015-09" end="2017-09" bindchange="bindDateChange" fields="month">
+        <view class="picker">
+          当前选择: {{date}}
+        </view>
+      </picker>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '图文'
+    }
+    components = {}
+    data = {}
+    computed = {}
+    methods = {
+      bindDateChange: function(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+          date: e.detail.value
+        })
+      }
+    }
+    events = {}
+    async onPullDownRefresh() {
+      await wepy.stopPullDownRefresh()
+    }
+    onLoad() {
+      console.log('hello index')
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+</style>

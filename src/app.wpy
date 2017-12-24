@@ -8,8 +8,7 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index',
-      // 'pages/One',
+      'pages/oneList',
       'pages/oneGrap',
       'pages/oneEssay',
       'pages/movie',
@@ -29,7 +28,7 @@ export default class extends wepy.app {
       borderStyle: 'black',
       backgroundColor: '#ffffff',
       list: [{
-        pagePath: 'pages/index',
+        pagePath: 'pages/oneList',
         iconPath: './img/tabIcon/tuwen.png',
         selectedIconPath: './img/tabIcon/tuwen_index.png',
         text: '图文'
@@ -48,7 +47,8 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    oneList: {}
   }
 
   constructor () {
