@@ -1,42 +1,136 @@
 <template>
-  <view class="container">
-    <view class="section">
-      <view class="section__title">日期选择器</view>
-      <picker mode="date" value="{{date}}" start="2015-09" end="2017-09" bindchange="bindDateChange" fields="month">
+  <view class="oneList">
+    <view class="date_picker">
+      <picker mode="date" value="{{date}}" start="2012-10" end="{{currentDate}}" bindchange="bindDateChange" fields="month">
         <view class="picker">
-          当前选择: {{date}}
+          <view class="picker_img">
+            <image src="../img/date/date.png" style="width: 40rpx;height: 40rpx"></image>
+          </view>
+          <view class="picker_text">
+            {{date}}
+          </view>
+          <view class="picker_more">
+            <image src="../img/date/more.png" style="width: 40rpx;height: 40rpx"></image>
+          </view>
         </view>
       </picker>
+    </view>
+    <view class="repeat_container">
+      <repeat class="repeat_content" for="{{oneList}}">
+        <view class="content" data-index="{{index}}" @tap="getDetail">
+          <view class="content_img">
+            <image class="pic" src="{{item.imgUrl}}" lazy-load="true"></image>
+          </view>
+          <view class="content_time">
+            <text>{{item.imgTime}}</text>
+          </view>
+        </view>
+      </repeat>
     </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import {
+    getMonth
+  } from 'api/one'
+  import creatOneList from 'common/one'
+  import {
+    currentMonth
+  } from 'common/utils'
+  const ERR_OK = 200
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '图文'
     }
     components = {}
-    data = {}
+    data = {
+      oneList: [],
+      date: '',
+      currentDate: ''
+    }
     computed = {}
     methods = {
-      bindDateChange: function(e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value)
-        this.setData({
-          date: e.detail.value
+      bindDateChange: async function(e) {
+        this.date = e.detail.value
+        this.$apply()
+        await this.getMonthData(this.date)
+      },
+      getDetail(e) {
+        let data = e.currentTarget.dataset
+        wepy.navigateTo({
+          url: './oneGrap?index=' + data.index
         })
       }
     }
     events = {}
+    _normalizeOnes(list) {
+      let ret = []
+      list.forEach((item) => {
+        ret.push(creatOneList(item))
+      })
+      return ret
+    }
     async onPullDownRefresh() {
       await wepy.stopPullDownRefresh()
     }
-    onLoad() {
-      console.log('hello index')
+    async getMonthData(date) {
+      let res = await getMonth(this.date)
+      if (res.statusCode === ERR_OK) {
+        let oneList = this._normalizeOnes(res.data.data)
+        this.$parent.globalData.oneList = oneList
+        this.oneList = oneList
+        this.$apply()
+      }
+    }
+    async onLoad() {
+      wepy.showToast({
+        title: '努力加载中',
+        icon: 'loading'
+      })
+      this.date = await currentMonth()
+      this.currentDate = this.date
+      await this.getMonthData(this.date)
+      wepy.hideToast()
     }
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scoped>       
+.oneList
+  .date_picker
+    display: flex
+    justify-content: center
+    margin-bottom: 10rpx
+    border-top: 1rpx solid rgba(7, 17, 27, 0.1)
+    border-bottom : 1rpx solid rgba(7, 17, 27, 0.1)
+    .picker
+      display: flex
+      align-items: center
+      .picker_img
+        padding-top: 10rpx
+      .picker_text
+        margin: 0 15rpx
+        font-size: 38rpx
+        color: #8a8a8a
+      .picker_more
+        padding-top: 20rpx
+  .repeat_container
+    display: flex
+    flex-wrap: wrap
+    width: 100%
+    .content
+      margin: 17rpx
+      border: 1rpx solid rgba(7, 17, 27, 0.1)
+      width: 45%
+      .content_img
+        .pic
+          width: 100%
+          height: 220rpx
+      .content_time
+        text-align: center
+        height: 100rpx
+        line-height: 100rpx
+        color: #555
 </style>

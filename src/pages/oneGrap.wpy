@@ -1,16 +1,16 @@
 <template>
-  <view class="grap">
+  <view class="grap" scroll-y="true">
     <view class="picture">
-      <image class="pic" src="{{imgUrl}}"  mode="widthFix"></image>
+      <image class="pic" src="{{oneCurrent.imgUrl}}"  mode="widthFix"></image>
     </view>
     <view class="image-author">
-			<text class="author">{{imgAuthor}}</text>
+			<text class="author">{{oneCurrent.imgAuthor}}</text>
 		</view>
 		<view class="grap-content">
-			<text class="content">{{content}}</text>
+			<text class="content">{{oneCurrent.content}}</text>
 		</view>
     <view class="content-author">
-      <text class="author">{{contentAuthor}}</text>
+      <text class="author">{{oneCurrent.textAuthor}}</text>
     </view>
     <view class="grap-bottom">
       <span class="bottom-left">
@@ -19,7 +19,7 @@
       </span>
       <span class="bottom-right">
       <image class="like" src="../img/oneGrap/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
-      <text class="like-num">{{likesNum}}</text>        
+      <text class="like-num">{{oneCurrent.likeNum}}</text>        
       <image class="share" src="../img/oneGrap/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
       </span>
     </view>
@@ -30,17 +30,12 @@
   import wepy from 'wepy'
   export default class OneGrap extends wepy.page {
     config = {
-      navigationBarTitleText: '2017/01/31'
     }
     props = {
     }
     data = {
-      imgTime: '2017/01/31',
-      imgUrl: 'http://image.wufazhuce.com/FnKp7ffcEJV9nWRZbq3kQBWKD1ZL',
-      imgAuthor: '摄影|素人沐恩',
-      content: '我再也没有像那天一样，怀着满格的耐心与焦灼，去矛盾的等过一个人。后来所去见的人，每一面都顺水推舟，稀松平常。所以再也体会不到，溺水之人被捞上岸，呼吸到第一扣空气时的那种存在感。幸与不幸，都是你。',
-      contentAuthor: '张瑞琪',
-      likesNum: '2450'
+      oneCurrent: [],
+      current: Number
     }
     events = {}
     watch = {}
@@ -50,13 +45,15 @@
       await wepy.stopPullDownRefresh()
     }
 
-    onLoad() {
-      console.log(this.$parent)
+    onLoad(options) {
+      this.oneCurrent = this.$parent.globalData.oneList[options.index]
+      this.current = options.index
+      this.$apply()
+      console.log(this.OneList)
     }
     onReady() {
-      console.log(this.$parent)
       wepy.setNavigationBarTitle({
-        title: this.imgTime
+        title: this.oneCurrent.imgTime
       })
     }
   }

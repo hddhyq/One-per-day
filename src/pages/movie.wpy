@@ -1,7 +1,7 @@
 <template>
   <view>
     <scroll-view scroll-y="true" bindscrolltolower="getMore" class="scroll-container">
-      <repeat class="movie-item" for="{{movieList}}" key="{{id}}">
+      <repeat class="movie-item" for="{{movieList}}">
         <view class="movie" @tap="getDetail" data-id="{{item.id}}" data-title="{{item.title}}" data-img="{{item.img}}">
           <view class="movie-left">
             <view class="cover">

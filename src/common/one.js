@@ -21,7 +21,7 @@ export default function createOneList(ListData) {
 }
 
 function filterTime(time) {
-  return time.split(' ')[0]
+  return time.split(' ')[0].replace(/-/g, '/')
 }
 
 function filterAuthor(author) {
