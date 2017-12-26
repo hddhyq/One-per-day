@@ -1,27 +1,27 @@
 <template>
-  <view class="grap" scroll-y="true">
+  <view class="grap" bindtouchstart="touchStart" bindtouchend="touchEnd">
     <view class="picture">
-      <image class="pic" src="{{oneCurrent.imgUrl}}"  mode="widthFix"></image>
+      <image class="pic" src="{{oneCurrent.imgUrl}}" mode="widthFix"></image>
     </view>
     <view class="image-author">
-			<text class="author">{{oneCurrent.imgAuthor}}</text>
-		</view>
-		<view class="grap-content">
-			<text class="content">{{oneCurrent.content}}</text>
-		</view>
+      <text class="author">{{oneCurrent.imgAuthor}}</text>
+    </view>
+    <view class="grap-content">
+      <text class="content">{{oneCurrent.content}}</text>
+    </view>
     <view class="content-author">
       <text class="author">{{oneCurrent.textAuthor}}</text>
     </view>
     <view class="grap-bottom">
       <span class="bottom-left">
-        <image src="../img/oneGrap/discover.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
-        <text class="discover-text">发现</text>
-      </span>
+                              <image src="../img/oneGrap/discover.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+                              <text class="discover-text">发现</text>
+                            </span>
       <span class="bottom-right">
-      <image class="like" src="../img/oneGrap/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
-      <text class="like-num">{{oneCurrent.likeNum}}</text>        
-      <image class="share" src="../img/oneGrap/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
-      </span>
+                            <image class="like" src="../img/oneGrap/like.png" style="height:34rpx;width:34rpx" mode="scaleToFill"></image>
+                            <text class="like-num">{{oneCurrent.likeNum}}</text>        
+                            <image class="share" src="../img/oneGrap/share.png" style="height:30rpx;width:30rpx" mode="scaleToFill"></image>        
+                            </span>
     </view>
   </view>
 </template>
@@ -29,27 +29,63 @@
 <script>
   import wepy from 'wepy'
   export default class OneGrap extends wepy.page {
-    config = {
-    }
-    props = {
-    }
+    config = {}
+    props = {}
     data = {
       oneCurrent: [],
-      current: Number
+      current: Number,
+      touchDot: 0,
+      time: 0,
+      interval: ''
     }
     events = {}
     watch = {}
     methods = {
+      touchStart(e) {
+        this.touchDot = e.touches[0].pageX
+        this.interval = setInterval(function() {
+          this.time++
+        }, 100)
+      },
+      touchEnd(e) {
+        let touchMove = e.changedTouches[0].pageX
+        if (touchMove - this.touchDot <= -40 && this.time < 10) {
+          if (this.current < this.$parent.globalData.oneList.length - 1) {
+            this.current = +this.current + 1
+            this.oneCurrent = this.$parent.globalData.oneList[this.current]
+            // console.log(this.current)
+            // console.log(this.$parent.globalData.oneList)
+            // console.log('右滑')
+            this.$apply()
+            wepy.setNavigationBarTitle({
+              title: this.oneCurrent.imgTime
+            })
+          }
+        } // 左滑
+        if (touchMove - this.touchDot >= 40 && this.time < 10) {
+          if (this.current > 0) {
+            this.current = +this.current - 1
+            this.oneCurrent = this.$parent.globalData.oneList[this.current]
+            // console.log(this.current)
+            // console.log('左滑')
+            this.$apply()
+            wepy.setNavigationBarTitle({
+              title: this.oneCurrent.imgTime
+            })
+          }
+        }
+        clearInterval(this.interval) // 清除setInterval
+        this.time = 0
+      }
     }
-    async onPullDownRefresh () {
+    async onPullDownRefresh() {
       await wepy.stopPullDownRefresh()
     }
-
     onLoad(options) {
       this.oneCurrent = this.$parent.globalData.oneList[options.index]
       this.current = options.index
       this.$apply()
-      console.log(this.OneList)
+      // console.log(this.oneCurrent)
     }
     onReady() {
       wepy.setNavigationBarTitle({
