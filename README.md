@@ -47,7 +47,7 @@
 ![](https://github.com/hddhyq/One-per-day/raw/master/screenshot/oneMovie.gif)
 
 
-学习过程中的难点和怪点见blog
+学习过程中的难点和怪点见[blog](https://hddhyq.github.io/2017/12/27/wepy%E5%BC%80%E5%8F%91%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%80%BB%E7%BB%93/)
 
 
 最后感谢[https://github.com/jokermonn/-Api](https://github.com/jokermonn/-Api)提供者
